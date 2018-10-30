@@ -18,7 +18,7 @@ namespace ThAmCo.Events.Controllers
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
-
+            String test = "";
             return View();
         }
 
