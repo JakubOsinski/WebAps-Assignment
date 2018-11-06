@@ -37,9 +37,9 @@
                 @Html.DisplayFor(modelItem => item.Attended)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { Id = item.CustomerId, EventId = item.EventId }) |
-                @Html.ActionLink("Details", "Details", new { Id = item.CustomerId, EventId = item.EventId }) |
-                @Html.ActionLink("Delete", "Delete", new { Id = item.CustomerId, EventId = item.EventId })
+                @Html.ActionLink("Edit", "Edit", new { id = item.CustomerId, EventId = item.EventId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.CustomerId, EventId = item.EventId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.CustomerId, EventId = item.EventId })
             </td>
         </tr>
 }
