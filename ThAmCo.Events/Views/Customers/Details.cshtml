@@ -28,8 +28,57 @@
         <dd>
             @Html.DisplayFor(model => model.Email)
         </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.Guests)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>*@
+
     </dl>
 </div>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Bookings.FirstOrDefault().Customer.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Bookings.FirstOrDefault().Event.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Bookings.FirstOrDefault().Attended)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Bookings)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Customer.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Event.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Attended)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.CustomerId, EventId = item.EventId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.CustomerId, EventId = item.EventId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.CustomerId, EventId = item.EventId })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
