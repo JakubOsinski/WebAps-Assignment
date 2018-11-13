@@ -34,7 +34,9 @@ namespace ThAmCo.Events.Controllers
 
             var customer = await _context.Customers
                 .Include(c => c.Bookings)
+                .ThenInclude(c => c.Event)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (customer == null)
             {
                 return NotFound();
