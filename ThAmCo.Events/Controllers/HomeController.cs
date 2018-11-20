@@ -6,12 +6,15 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ThAmCo.Events.Models;
 
+using System.Net.Http;
+
 namespace ThAmCo.Events.Controllers
 {
     public class HomeController : Controller
     {
         public IActionResult Index()
         {
+
             return View();
         }
 

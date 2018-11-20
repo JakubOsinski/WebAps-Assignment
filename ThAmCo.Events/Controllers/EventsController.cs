@@ -7,11 +7,17 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ThAmCo.Events.Data;
 
+using System.Net.Http;using ThAmCo.Events.Models;
+
 namespace ThAmCo.Events.Controllers
 {
     public class EventsController : Controller
     {
+
         private readonly EventsDbContext _context;
+
+
+   
 
         public EventsController(EventsDbContext context)
         {
@@ -45,6 +51,7 @@ namespace ThAmCo.Events.Controllers
         // GET: Events/Create
         public IActionResult Create()
         {
+
             return View();
         }
 
@@ -55,6 +62,7 @@ namespace ThAmCo.Events.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Title,Date,Duration,TypeId")] Event @event)
         {
+
             if (ModelState.IsValid)
             {
                 _context.Add(@event);
@@ -77,6 +85,30 @@ namespace ThAmCo.Events.Controllers
             {
                 return NotFound();
             }
+
+            // Pull venues?
+            //http://localhost:23652/api/availability?eventtype=wed&begindate=2018-11-20&enddate=2018-11-21
+
+            var venues = new List<VenuesDto>().AsEnumerable(); // why do this?
+     
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new System.Uri("http://localhost:23652/");
+            client.DefaultRequestHeaders.Accept.ParseAdd("application/json");
+            HttpResponseMessage response = await client.GetAsync("api/availability?eventtype=wed&begindate=2018-11-20&enddate=2018-11-21");
+
+
+            if (response.IsSuccessStatusCode)
+            {
+                venues = await response.Content.ReadAsAsync<IEnumerable<VenuesDto>>();
+            }
+            else
+            {
+                //Debug.WriteLine("Index received a bad response from the web service.");
+                // return an error message
+            }
+
+
+
             return View(@event);
         }
 

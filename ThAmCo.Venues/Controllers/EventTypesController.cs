@@ -24,6 +24,7 @@ namespace ThAmCo.Venues.Controllers
         [HttpGet]
         public async Task<IActionResult> GetEventTypes()
         {
+
             var dto = await _context.EventTypes
                                     .Select(e => new
                                     {
