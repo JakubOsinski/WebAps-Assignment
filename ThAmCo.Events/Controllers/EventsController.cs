@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ThAmCo.Events.Data;
 
-using System.Net.Http;using ThAmCo.Events.Models;
+using System.Net.Http;
+using ThAmCo.Events.Models;
+using System.Diagnostics;
 
 namespace ThAmCo.Events.Controllers
 {
@@ -16,8 +18,8 @@ namespace ThAmCo.Events.Controllers
 
         private readonly EventsDbContext _context;
 
+ 
 
-   
 
         public EventsController(EventsDbContext context)
         {
@@ -62,7 +64,6 @@ namespace ThAmCo.Events.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Title,Date,Duration,TypeId")] Event @event)
         {
-
             if (ModelState.IsValid)
             {
                 _context.Add(@event);
@@ -86,16 +87,31 @@ namespace ThAmCo.Events.Controllers
                 return NotFound();
             }
 
+            return View(@event);
+        }
+
+        public async Task<IActionResult> ViewVenues(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // Load event to get type and date
+            //get the specific venue from the id or all available venues? which one is it?
+            //after that show it in response?
+
+
+
             // Pull venues?
             //http://localhost:23652/api/availability?eventtype=wed&begindate=2018-11-20&enddate=2018-11-21
 
-            var venues = new List<VenuesDto>().AsEnumerable(); // why do this?
-     
+            var venues = new List<VenuesDto>().AsEnumerable();
+
             HttpClient client = new HttpClient();
             client.BaseAddress = new System.Uri("http://localhost:23652/");
             client.DefaultRequestHeaders.Accept.ParseAdd("application/json");
             HttpResponseMessage response = await client.GetAsync("api/availability?eventtype=wed&begindate=2018-11-20&enddate=2018-11-21");
-
 
             if (response.IsSuccessStatusCode)
             {
@@ -103,13 +119,11 @@ namespace ThAmCo.Events.Controllers
             }
             else
             {
-                //Debug.WriteLine("Index received a bad response from the web service.");
+                Debug.WriteLine("Index received a bad response from the web service.");
                 // return an error message
-            }
+            }
 
-
-
-            return View(@event);
+            return View(venues);
         }
 
         // POST: Events/Edit/5
@@ -142,6 +156,10 @@ namespace ThAmCo.Events.Controllers
                         throw;
                     }
                 }
+
+                // now reserve venue in venues API
+                // http post 
+
                 return RedirectToAction(nameof(Index));
             }
             return View(@event);

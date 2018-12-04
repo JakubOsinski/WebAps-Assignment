@@ -34,6 +34,10 @@
                 <span asp-validation-for="TypeId" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label for="VenueCode" class="control-label"></label>
+                <select id="VenueCode" class="form-control" asp-items="ViewBag.Venues"></select>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </form>
