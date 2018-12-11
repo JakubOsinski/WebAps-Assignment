@@ -98,10 +98,7 @@ namespace ThAmCo.Events.Controllers
             }
 
             // Load event to get type and date
-            //get the specific venue from the id or all available venues? which one is it?
-            //after that show it in response?
-
-
+            var @event = await _context.Events.FindAsync(id);
 
             // Pull venues?
             //http://localhost:23652/api/availability?eventtype=wed&begindate=2018-11-20&enddate=2018-11-21
@@ -111,7 +108,10 @@ namespace ThAmCo.Events.Controllers
             HttpClient client = new HttpClient();
             client.BaseAddress = new System.Uri("http://localhost:23652/");
             client.DefaultRequestHeaders.Accept.ParseAdd("application/json");
-            HttpResponseMessage response = await client.GetAsync("api/availability?eventtype=wed&begindate=2018-11-20&enddate=2018-11-21");
+            //    HttpResponseMessage response = await client.GetAsync("api/availability?eventtype=wed&begindate=2018-11-20&enddate=2018-11-21");
+            HttpResponseMessage response = await client.GetAsync("api/availability?eventtype=" + @event.TypeId + 
+                "&begindate=" + @event.Date.ToString("yyyy-MM-dd") + 
+                "&enddate=" + @event.Date.Add(@event.Duration.Value).ToString("yyyy-MM-dd"));
 
             if (response.IsSuccessStatusCode)
             {

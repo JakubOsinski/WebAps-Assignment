@@ -28,8 +28,6 @@
                 @Html.DisplayNameFor(model => model.Bookings.Count)
             </th>
 
-
-
             <th></th>
         </tr>
     </thead>
@@ -51,12 +49,13 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Bookings.Count)
             </td>
+
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
                 <a asp-controller="GuestBookings" asp-action="Index" asp-route-eventId="@item.Id">Guests</a> |
-                <a asp-action="ViewVenues" asp-route-id="@item.Id">Available Venues</a> 
+                <a asp-action="ViewVenues" asp-route-id="@item.Id">Available Venues</a>
             </td>
         </tr>
 }
